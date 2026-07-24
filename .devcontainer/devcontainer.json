@@ -1,11 +1,11 @@
 {
-  "name": "python-learning-exercise-game",
-  "workspaceFolder": "/workspaces/python-learning-exercise-game",
+  "name": "python-projects",
+  "workspaceFolder": "/workspaces/python-projects",
   "workspaceMount": "",
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
-      "WORKSPACE_DIR": "/workspaces/python-learning-exercise-game"
+      "WORKSPACE_DIR": "/workspaces/python-projects"
     }
   },
   "features": {},
@@ -19,7 +19,7 @@
   },
   "remoteEnv": {
     "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
-    "WORKSPACE_DIR": "/workspaces/python-learning-exercise-game",
+    "WORKSPACE_DIR": "/workspaces/python-projects",
     "CLAUDE_CONFIG_DIR": "/home/node/.claude"
   },
   "remoteUser": "node",
