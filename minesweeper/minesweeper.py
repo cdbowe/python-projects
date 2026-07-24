@@ -296,6 +296,9 @@ class Minesweeper:
     def _is_out_of_bounds(self, row: int, col: int) -> bool:
         return not (0 <= row < self.height and 0 <= col < self.width)
 
+    def is_revealed(self, row: int, col: int) -> bool:
+        return self.board[row][col].revealed
+
     def reveal_cell(self, row: int, col: int) -> None:
         """
         TODO-8: Reveal a cell and recursively flood-fill empty neighbors
@@ -344,6 +347,44 @@ class Minesweeper:
                     self.reveal_cell(neighbor_row, neighbor_col)
 
         # pass
+
+    def reveal_neighbors(self, row: int, col: int) -> None:
+        """
+        Intended for already-revealed cells. reveal all neighbors to the current when all of the following are true:
+        - Current cell is already revealed
+        - Current cell has 1+ adjacent mines
+        - Adjacent mine count is equal to number of flagged unrevealed neighbors
+        - At least one neighbor is unrevealed and unflagged
+        """
+
+        cell = self.board[row][col]
+
+        if not cell.revealed:
+            return
+        if not cell.adjacent_mines > 0:
+            return
+        
+        flagged_neighbors = 0
+        unrevealed_neighbors: List[Tuple[int, int]] = []
+
+        # Get unrevealed neighbors for further checks
+        for r, c in self.get_neighbors(row, col):
+            neighbor = self.board[r][c]
+            if neighbor.revealed:
+                continue
+            if not neighbor.flagged:
+                unrevealed_neighbors.append((r, c))
+            else:
+                flagged_neighbors += 1
+
+        if not len(unrevealed_neighbors) > 0:
+            return
+        if flagged_neighbors != cell.adjacent_mines:
+            return
+        
+        # Checks passed. Reveal unflagged neighbor cells
+        for r, c in unrevealed_neighbors:
+            self.reveal_cell(r, c)
 
     @property
     def is_complete(self) -> bool:
@@ -478,7 +519,10 @@ class Minesweeper:
             if action == "f":
                 self.flag_cell(row, col)
             elif action == "r":
-                self.reveal_cell(row, col)
+                if self.is_revealed(row, col):
+                    self.reveal_neighbors(row, col)
+                else:
+                    self.reveal_cell(row, col)
             else:
                 print("Invalid input")
 
