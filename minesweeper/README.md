@@ -593,3 +593,5 @@ Once you've completed all TODOs:
 6. Port to a GUI using tkinter or pygame (teaches library integration beyond stdlib).
 
 Happy learning! 🎮
+
+TEST
