@@ -592,4 +592,4 @@ Once you've completed all TODOs:
 5. Add a save/load feature using pickle or JSON (teaches file I/O and serialization).
 6. Port to a GUI using tkinter or pygame (teaches library integration beyond stdlib).
 
-Happy learning! 🎮
+Happy learning!    🎮
