@@ -46,7 +46,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ######################
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 python3-pip python3-venv \
+    python3 python3-pip python3-venv python3-tk \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ######################
