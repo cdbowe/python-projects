@@ -420,9 +420,14 @@ class Minesweeper:
 
         for row in self.board:
             for cell in row:
-                # Any unrevealed cell that is NOT a mine, return False
-                if not cell.revealed and not cell.is_mine:
-                    return False
+                # All revealed cells must NOT be flagged and NOT be a mine
+                # All unrevealed cells must be a mine AND be flagged
+                if cell.revealed:
+                    if cell.is_mine or cell.flagged:
+                        return False
+                else:
+                    if not (cell.is_mine and cell.flagged):
+                        return False
 
         return True
 
