@@ -72,6 +72,7 @@ class MinesweeperGUI:
 
     def _init_button(self, row: int, col: int) -> tk.Button:
         button = tk.Button(self.root, width=2, command=lambda r=row, c=col: self.on_left_click(r, c))
+        button.bind("<Button-2>", lambda event, r=row, c=col: self.on_middle_click(r, c))
         button.bind("<Button-3>", lambda event, r=row, c=col: self.on_right_click(r, c))
         button.grid(row=row, column=col)
         button.config(font=self.button_font)
@@ -105,6 +106,10 @@ class MinesweeperGUI:
         self.game.flag_cell(row, col)
         self.refresh()
         # raise NotImplementedError("TODO-3: self.game.flag_cell(row, col), then self.refresh()")
+
+    def on_middle_click(self, row: int, col: int):
+        self.game.reveal_neighbors(row, col)
+        self.refresh()
 
     def refresh(self) -> None:
         """
