@@ -1,2 +1,4 @@
 __pycache__
 .git-credentials-local
+.venv
+.pytest_cache
