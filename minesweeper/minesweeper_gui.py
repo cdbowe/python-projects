@@ -58,16 +58,20 @@ class MinesweeperGUI:
         self.root = tk.Tk()
         self.root.title("Minesweeper")
         self.buttons: list[list[tk.Button]] = [
-            [tk.Button(self.root, width=2, command=lambda r=r, c=c: self.on_left_click(r, c))
-                       .bind("<Button-3>", lambda event, r=r, c=c: self.on_right_click(r, c)) 
-                       for c in range(self.game.width)] 
-            for r in range(self.game.height)]
+            [self._init_button(r, c) for c in range(self.game.width)] for r in range(self.game.height)
+        ]
 
         self.refresh()
 
         # raise NotImplementedError("TODO-1: build self.buttons as a grid of tk.Button widgets")
 
         # self.refresh()  # uncomment once TODO-4 is implemented
+
+    def _init_button(self, row: int, col: int) -> tk.Button:
+        button = tk.Button(self.root, width=2, command=lambda r=row, c=col: self.on_left_click(r, c))
+        button.bind("<Button-3>", lambda event, r=row, c=col: self.on_right_click(r, c))
+        button.grid(row=row, column=col)
+        return button
 
     def on_left_click(self, row: int, col: int) -> None:
         """
@@ -96,7 +100,7 @@ class MinesweeperGUI:
         """
         self.game.flag_cell(row, col)
         self.refresh()
-        raise NotImplementedError("TODO-3: self.game.flag_cell(row, col), then self.refresh()")
+        # raise NotImplementedError("TODO-3: self.game.flag_cell(row, col), then self.refresh()")
 
     def refresh(self) -> None:
         """
