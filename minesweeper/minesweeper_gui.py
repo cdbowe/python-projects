@@ -9,7 +9,7 @@ Run: python3 minesweeper_gui.py
 """
 
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, font
 
 from minesweeper import Minesweeper, CellState
 
@@ -53,10 +53,13 @@ class MinesweeperGUI:
       (all-hidden) is drawn correctly before the first click.
     """
 
+    COLOR_BY_COUNT = {1: "blue", 2: "green", 3: "red", 4: "purple", 5: "maroon", 6: "cyan", 7: "black", 8: "gray"}
+
     def __init__(self, width: int = 10, height: int = 10, num_mines: int = 10) -> None:
         self.game = Minesweeper(width=width, height=height, num_mines=num_mines)
         self.root = tk.Tk()
         self.root.title("Minesweeper")
+        self.button_font = font.Font(family="Helvetica", size=12, weight="bold")
         self.buttons: list[list[tk.Button]] = [
             [self._init_button(r, c) for c in range(self.game.width)] for r in range(self.game.height)
         ]
@@ -71,6 +74,7 @@ class MinesweeperGUI:
         button = tk.Button(self.root, width=2, command=lambda r=row, c=col: self.on_left_click(r, c))
         button.bind("<Button-3>", lambda event, r=row, c=col: self.on_right_click(r, c))
         button.grid(row=row, column=col)
+        button.config(font=self.button_font)
         return button
 
     def on_left_click(self, row: int, col: int) -> None:
@@ -140,7 +144,8 @@ class MinesweeperGUI:
 
                 button.config(text=button_text)
                 if cell.revealed:
-                    button.config(state="disabled")
+                    button.config(state="disabled", bg="dark gray",
+                                  disabledforeground=self.COLOR_BY_COUNT.get(cell.adjacent_mines, "black"))
 
         if self.game.game_over or self.game.is_complete:
             self.show_end_game_dialog(self.game.is_complete)
